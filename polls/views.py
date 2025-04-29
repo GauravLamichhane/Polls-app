@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from .models import Choice, Question
-
+from django.views.generic.detail import DetailView
 
 class IndexView(generic.ListView):
     template_name = "polls/index.html"
@@ -27,8 +27,8 @@ class ResultsView(generic.DetailView):
     model = Question
     template_name = "polls/results.html"
 
-def vote(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
+def vote(request, pk):
+    question = get_object_or_404(Question, pk=pk)
     try:
         selected_choice = question.choice_set.get(pk=request.POST["choice"])
     except (KeyError, Choice.DoesNotExist):
